@@ -1,41 +1,151 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en" dir="ltr">
+<html lang="en">
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | MediCare</title>
+  <link rel="stylesheet"
+ href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-  <title>LazyCoder || sumit</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <style>
+    .contact-wrapper {
+      padding: 100px 20px 60px;
+      max-width: 700px;
+      margin: auto;
+    }
 
+    .contact-card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
 
+    .contact-card h3 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2d3748;
+    }
+
+    .contact-card input[type="submit"] {
+      display: block;
+      margin: 30px auto 0;
+      padding: 14px 45px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .contact-wrapper {
+        padding-top: 80px;
+      }
+    }
+    .form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  background: #f9fafb;
+  transition: 0.3s ease;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+.form-group textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.error {
+  color: #e53e3e;
+  font-size: 0.9rem;
+  margin-top: 6px;
+  display: block;
+}
+
+/* Submit Button */
+.btn-submit {
+  display: block;
+  width: 100%;
+  margin-top: 35px;
+  padding: 16px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+}
+
+  </style>
 </head>
 
 <body>
 
   {% include "hospital/navbar.html" %}
-  <br><br>
 
-  <center>
-    <h3 class='alert alert-success'>Send Us Your Valuable Feedback !</h3>
+  <div class="contact-wrapper">
+    <div class="contact-card">
+      <h3 class="alert alert-success">
+          Contact Us 
+      </h3>
 
-    <form method="POST">
-      <!-- Very Important csrf Token -->
-      {% csrf_token %}
-      <div class="form-group">
-        <p>
-        <h3>{{ form.as_p }}</h3>
-        </p>
-        <br>
-        <input type="submit" value="Send Message" class='btn btn-primary btn-lg'>
-      </div>
-    </form>
-  </center>
+      <form method="POST">
+        {% csrf_token %}
+        <form method="POST">
+  {% csrf_token %}
+
+  {% for field in form %}
+    <div class="form-group">
+      <label>{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}
+        <small class="error">{{ field.errors|striptags }}</small>
+      {% endif %}
+    </div>
+  {% endfor %}
+
+  <input type="submit" value="Send Message" class="btn-submit">
+</form>
+      </form>
+    </div>
+  </div>
+
   {% include "hospital/footer.html" %}
-</body>
-<!--
-developed By : sumit kumar
-facebook : fb.com/sumit.luv
-youtube : youtube.com/lazycoders
--->
 
+</body>
 </html>

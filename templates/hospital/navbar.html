@@ -1,65 +1,78 @@
-<!DOCTYPE html>
 {% load static %}
-<html lang="en">
+{% load i18n %}
 
-<head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top medicare-navbar">
+  <div class="container">
 
-  <style type="text/css">
-    .bs-example {
-      margin: 0px;
+    <!-- BRAND -->
+    <a class="navbar-brand font-weight-bold" href="{% url 'home' %}">
+      🏥 MediCare
+    </a>
 
-    }
+    <!-- TOGGLER -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#medicareNavbar"
+      aria-controls="medicareNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    .navbar-brand {
-      font-size: 20px;
-      font-family: sans-serif;
+    <!-- LINKS -->
+    <div class="collapse navbar-collapse" id="medicareNavbar">
 
-    }
-  </style>
-</head>
+      <!-- LEFT -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'adminclick' %}">{% trans "Admin" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'doctorclick' %}">{% trans "Doctor" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'patientclick' %}">{% trans "Patient" %}</a>
+        </li>
+      </ul>
 
-<body>
+      <!-- RIGHT -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'aboutus' %}">{% trans "About" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contactus' %}">{% trans "Contact" %}</a>
+        </li>
 
+        <!-- LANGUAGE DROPDOWN -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            🌐 {% get_current_language as LANGUAGE_CODE %}{{ LANGUAGE_CODE|upper }}
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
+            <a class="dropdown-item" href="{% url 'set_language' %}?language=en">English</a>
+            <a class="dropdown-item" href="{% url 'set_language' %}?language=fr">Français</a>
+            <a class="dropdown-item" href="{% url 'set_language' %}?language=ar">العربية</a>
+          </div>
+        </li>
 
-
-  <div class="bs-example">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background:#337AB7;">
-      <a href="/" class="navbar-brand">Hospital Management</a>
-      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-        <div class="navbar-nav">
-
-          <a href="/adminclick" class="nav-item nav-link">Admin</a>
-          <a href="/doctorclick" class="nav-item nav-link">Doctor</a>
-          <a href="/patientclick" class="nav-item nav-link">Patient</a>
-
-
-        </div>
-
-        <div class="navbar-nav">
-          <a href="/aboutus" class="nav-item nav-link">About Us</a>
-          <a href="/contactus" class="nav-item nav-link">Contact Us</a>
-        </div>
-
-      </div>
-    </nav>
+      </ul>
+    </div>
   </div>
+</nav>
 
-  <!--
-  developed By : sumit kumar
-  facebook : fb.com/sumit.luv
-  youtube : youtube.com/lazycoders
-  -->
+<style>
+.medicare-navbar {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  padding: 14px 0;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
 
-</body>
-
-</html>
+.medicare-navbar .navbar-brand { font-size: 1.4rem; letter-spacing: 0.5px; }
+.medicare-navbar .nav-link { font-size: 1rem; font-weight: 500; margin: 0 8px; color: rgba(255,255,255,0.9) !important; transition: 0.3s; }
+.medicare-navbar .nav-link:hover { color: #ffffff !important; text-decoration: underline; }
+body { padding-top: 80px; }
+</style>

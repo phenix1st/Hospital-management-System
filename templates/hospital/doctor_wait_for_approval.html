@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en" dir="ltr">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>LazyCoder || sumit</title>
-
 
   <style media="screen">
     .jumbotron {
@@ -22,7 +20,6 @@
       margin: 0px;
     }
   </style>
-
 </head>
 
 <body>
@@ -30,10 +27,13 @@
   <br>
   <br>
 
-  <div class="jumbotron" style="margin-top: 0px;
-    margin-bottom: 0px;">
+  <div class="jumbotron" style="margin-top: 0px; margin-bottom: 0px;">
     <h1 class="display-4">Hello {{request.user.first_name}}</h1>
-    <p class="lead">Your Account is not approved till now <br><br>Our Team is checking your profile <br><br> Soon your Account will be confirmed !!!</p>
+    <p class="lead">
+      Your Account is not approved till now <br><br>
+      Our Team is checking your profile <br><br>
+      Soon your Account will be confirmed !!!
+    </p>
     <hr class="my-4">
     <p>Check Later</p>
     <p class="lead">
@@ -41,12 +41,8 @@
     </p>
   </div>
 
+  {% comment %} Footer cleaned: removed Made in India and social links {% endcomment %}
   {% include "hospital/footer.html" %}
 </body>
-<!--
-developed By : sumit kumar
-facebook : fb.com/sumit.luv
-youtube : youtube.com/lazycoders
--->
 
 </html>

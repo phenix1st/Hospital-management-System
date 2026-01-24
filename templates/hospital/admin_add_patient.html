@@ -48,7 +48,13 @@
 
 </head>
 <br><br><br>
-<!------ signup page for doctor by admin(sumit)  ---------->
+
+<!-- Navigation to View Patients -->
+<div style="text-align:center; margin-bottom:20px;">
+    <a href="{% url 'admin-view-patient' %}" class="btn btn-info">View All Patients</a>
+</div>
+
+<!-- Admit Patient Form -->
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   <div class="container register-form">
@@ -94,11 +100,6 @@
       </div>
     </div>
   </div>
-
 </form>
-<!--
-developed By : sumit kumar
-facebook : fb.com/sumit.luv
-youtube : youtube.com/lazycoders
--->
+
 {% endblock content %}

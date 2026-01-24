@@ -1,8 +1,12 @@
 from django import forms
 from django.contrib.auth.models import User
 from . import models
+from django.core.validators import RegexValidator
 
-
+phone_validator = RegexValidator(
+    regex=r'^\+?\d{9,15}$',
+    message="Enter a valid phone number (9–15 digits)."
+)
 
 #for admin signup
 class AdminSigupForm(forms.ModelForm):
@@ -23,6 +27,7 @@ class DoctorUserForm(forms.ModelForm):
         'password': forms.PasswordInput()
         }
 class DoctorForm(forms.ModelForm):
+    mobile = forms.CharField(validators=[phone_validator])
     class Meta:
         model=models.Doctor
         fields=['address','mobile','department','status','profile_pic']
@@ -41,6 +46,7 @@ class PatientForm(forms.ModelForm):
     #this is the extrafield for linking patient and their assigend doctor
     #this will show dropdown __str__ method doctor model is shown on html so override it
     #to_field_name this will fetch corresponding value  user_id present in Doctor model and return it
+    mobile = forms.CharField(validators=[phone_validator])
     assignedDoctorId=forms.ModelChoiceField(queryset=models.Doctor.objects.all().filter(status=True),empty_label="Name and Department", to_field_name="user_id")
     class Meta:
         model=models.Patient
@@ -69,8 +75,3 @@ class ContactusForm(forms.Form):
     Email = forms.EmailField()
     Message = forms.CharField(max_length=500,widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}))
 
-
-
-#Developed By : sumit kumar
-#facebook : fb.com/sumit.luv
-#Youtube :youtube.com/lazycoders

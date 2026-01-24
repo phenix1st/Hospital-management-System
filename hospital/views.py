@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from datetime import datetime,timedelta,date
 from django.conf import settings
 from django.db.models import Q
+from django.contrib import messages
+
 
 # Create your views here.
 def home_view(request):
@@ -40,64 +42,88 @@ def patientclick_view(request):
 
 
 def admin_signup_view(request):
-    form=forms.AdminSigupForm()
-    if request.method=='POST':
-        form=forms.AdminSigupForm(request.POST)
+    form = forms.AdminSigupForm()
+    
+    if request.method == 'POST':
+        form = forms.AdminSigupForm(request.POST)
         if form.is_valid():
-            user=form.save()
+            user = form.save()
             user.set_password(user.password)
             user.save()
+
             my_admin_group = Group.objects.get_or_create(name='ADMIN')
             my_admin_group[0].user_set.add(user)
-            return HttpResponseRedirect('adminlogin')
-    return render(request,'hospital/adminsignup.html',{'form':form})
+
+            messages.success(request, "Admin account created successfully! You can now log in.")
+            return redirect('adminlogin')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    
+    return render(request, 'hospital/adminsignup.html', {'form': form})
 
 
 
 
 def doctor_signup_view(request):
-    userForm=forms.DoctorUserForm()
-    doctorForm=forms.DoctorForm()
-    mydict={'userForm':userForm,'doctorForm':doctorForm}
-    if request.method=='POST':
-        userForm=forms.DoctorUserForm(request.POST)
-        doctorForm=forms.DoctorForm(request.POST,request.FILES)
+    userForm = forms.DoctorUserForm()
+    doctorForm = forms.DoctorForm()
+    mydict = {'userForm': userForm, 'doctorForm': doctorForm}
+
+    if request.method == 'POST':
+        userForm = forms.DoctorUserForm(request.POST)
+        doctorForm = forms.DoctorForm(request.POST, request.FILES)
         if userForm.is_valid() and doctorForm.is_valid():
-            user=userForm.save()
+            user = userForm.save()
             user.set_password(user.password)
             user.save()
-            doctor=doctorForm.save(commit=False)
-            doctor.user=user
-            doctor=doctor.save()
+
+            doctor = doctorForm.save(commit=False)
+            doctor.user = user
+            doctor.save()
+
             my_doctor_group = Group.objects.get_or_create(name='DOCTOR')
             my_doctor_group[0].user_set.add(user)
-        return HttpResponseRedirect('doctorlogin')
-    return render(request,'hospital/doctorsignup.html',context=mydict)
+
+            messages.success(request, "Account created successfully! You can now log in.")
+            return redirect('doctorlogin')  # <-- Use redirect with URL name
+
+        else:
+            messages.error(request, "Please correct the errors below.")
+
+    return render(request, 'hospital/doctorsignup.html', context=mydict)
 
 
 def patient_signup_view(request):
-    userForm=forms.PatientUserForm()
-    patientForm=forms.PatientForm()
-    mydict={'userForm':userForm,'patientForm':patientForm}
-    if request.method=='POST':
-        userForm=forms.PatientUserForm(request.POST)
-        patientForm=forms.PatientForm(request.POST,request.FILES)
+    userForm = forms.PatientUserForm()
+    patientForm = forms.PatientForm()
+    mydict = {'userForm': userForm, 'patientForm': patientForm}
+
+    if request.method == 'POST':
+        userForm = forms.PatientUserForm(request.POST)
+        patientForm = forms.PatientForm(request.POST, request.FILES)
         if userForm.is_valid() and patientForm.is_valid():
-            user=userForm.save()
+            # Save user
+            user = userForm.save()
             user.set_password(user.password)
             user.save()
-            patient=patientForm.save(commit=False)
-            patient.user=user
-            patient.assignedDoctorId=request.POST.get('assignedDoctorId')
-            patient=patient.save()
+
+            # Save patient
+            patient = patientForm.save(commit=False)
+            patient.user = user
+            patient.assignedDoctorId = request.POST.get('assignedDoctorId')
+            patient.save()  # <-- no assignment here
+
+            # Add to patient group
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
             my_patient_group[0].user_set.add(user)
-        return HttpResponseRedirect('patientlogin')
-    return render(request,'hospital/patientsignup.html',context=mydict)
 
+            messages.success(request, "Account created successfully! You can now log in.")
+            return redirect('patientlogin')  # <-- safe redirect
 
+        else:
+            messages.error(request, "Please correct the errors below.")
 
-
+    return render(request, 'hospital/patientsignup.html', context=mydict)
 
 
 #-----------for checking user is doctor , patient or admin(by sumit)
@@ -336,29 +362,31 @@ def update_patient_view(request,pk):
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_add_patient_view(request):
-    userForm=forms.PatientUserForm()
-    patientForm=forms.PatientForm()
-    mydict={'userForm':userForm,'patientForm':patientForm}
-    if request.method=='POST':
-        userForm=forms.PatientUserForm(request.POST)
-        patientForm=forms.PatientForm(request.POST,request.FILES)
+    userForm = forms.PatientUserForm()
+    patientForm = forms.PatientForm()
+    mydict = {'userForm': userForm, 'patientForm': patientForm}
+
+    if request.method == 'POST':
+        userForm = forms.PatientUserForm(request.POST)
+        patientForm = forms.PatientForm(request.POST, request.FILES)
         if userForm.is_valid() and patientForm.is_valid():
-            user=userForm.save()
+            user = userForm.save()
             user.set_password(user.password)
             user.save()
 
-            patient=patientForm.save(commit=False)
-            patient.user=user
-            patient.status=True
-            patient.assignedDoctorId=request.POST.get('assignedDoctorId')
+            patient = patientForm.save(commit=False)
+            patient.user = user
+            patient.status = True
+            patient.assignedDoctorId = request.POST.get('assignedDoctorId')
             patient.save()
 
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
             my_patient_group[0].user_set.add(user)
 
-        return HttpResponseRedirect('admin-view-patient')
-    return render(request,'hospital/admin_add_patient.html',context=mydict)
+        # ✅ Use redirect with URL name
+        return redirect('admin-view-patient')
 
+    return render(request, 'hospital/admin_add_patient.html', context=mydict)
 
 
 #------------------FOR APPROVING PATIENT BY ADMIN----------------------
@@ -390,6 +418,13 @@ def reject_patient_view(request,pk):
     patient.delete()
     return redirect('admin-approve-patient')
 
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+@login_required
+def logout_view(request):
+    logout(request)          # destroys the session
+    return redirect('home')  # name of your main page
 
 
 #--------------------- FOR DISCHARGING PATIENT BY ADMIN START-------------------------
@@ -563,6 +598,7 @@ def reject_appointment_view(request,pk):
 #---------------------------------------------------------------------------------
 #------------------------ DOCTOR RELATED VIEWS START ------------------------------
 #---------------------------------------------------------------------------------
+
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_dashboard_view(request):
@@ -693,6 +729,8 @@ def delete_appointment_view(request,pk):
 #---------------------------------------------------------------------------------
 #------------------------ PATIENT RELATED VIEWS START ------------------------------
 #---------------------------------------------------------------------------------
+
+
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
 def patient_dashboard_view(request):
@@ -843,6 +881,4 @@ def contactus_view(request):
 
 
 
-#Developed By : sumit kumar
-#facebook : fb.com/sumit.luv
-#Youtube :youtube.com/lazycoders
+
