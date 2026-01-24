@@ -1,81 +1,94 @@
+# Hospital Management System (HMS)
 
-# Hospital Management
-![developer](https://img.shields.io/badge/Developed%20By%20%3A-Sumit%20Kumar-red)
+A **web-based Hospital Management System** built with **Django**, designed to efficiently manage hospital operations. The system provides **role-based dashboards** for **Admin**, **Doctors**, and **Patients**, enabling seamless management of patient records, appointments, and hospital workflows.  
+
 ---
-## screenshots
-### Homepage
-![homepage snap](https://github.com/sumitkumar1503/hospitalmanagement/blob/master/static/screenshots/homepage.png?raw=true)
+
+## Table of Contents
+
+- [Overview](#overview)  
+- [Features](#features)  
+- [User Dashboards](#user-dashboards)  
+- [Tech Stack](#tech-stack)  
+- [Installation](#installation)  
+- [Usage](#usage)  
+- [Screenshots](#screenshots)  
+- [License](#license)  
+
+---
+
+## Overview
+
+This project is a complete **Hospital Management System** that streamlines hospital operations. It ensures role-based access and functionality:
+
+- **Admins** manage doctors, patients, and appointments.  
+- **Doctors** manage assigned patients, appointments, and access discharge records.  
+- **Patients** manage appointments, view assigned doctors, and access discharge information.  
+
+The system uses **Django**, **Bootstrap**, and **xhtml2pdf** for PDF generation of bills.
+
+---
+
+## Features
+
+### Admin Features:
+- Add, update, delete doctors and patients.  
+- Approve or reject doctor and patient accounts.  
+- View and manage appointments.  
+- Discharge patients and generate final bills in PDF format.  
+- Dashboard overview with total counts of doctors, patients, and appointments.  
+
+### Doctor Features:
+- View assigned patients and patient details.  
+- Approve, reject, or delete appointments.  
+- Access discharge records of patients.  
+- Search patients by name or symptoms.  
+- Dashboard overview with patient and appointment statistics.  
+
+### Patient Features:
+- Book appointments with doctors.  
+- View upcoming and past appointments.  
+- Access discharge details and bills if admitted.  
+- Search and view doctors by specialization.  
+- Dashboard overview with doctor information and appointment status.  
+
+---
+
+## User Dashboards
+
 ### Admin Dashboard
-![dashboard snap](https://github.com/sumitkumar1503/hospitalmanagement/blob/master/static/screenshots/admin_dashboard.png?raw=true)
-### Invoice
-![invoice snap](https://github.com/sumitkumar1503/hospitalmanagement/blob/master/static/screenshots/invoice.png?raw=true)
-### Doctor list
-![doctor snap](https://github.com/sumitkumar1503/hospitalmanagement/blob/master/static/screenshots/admin_doctor.png?raw=true)
----
-## Functions
-### Admin
-- Signup their account. Then Login (No approval Required).
-- Can register/view/approve/reject/delete doctor (approve those doctor who applied for job in their hospital).
-- Can admit/view/approve/reject/discharge patient (discharge patient when treatment is done).
-- Can Generate/Download Invoice pdf (Generate Invoice according to medicine cost, room charge, doctor charge and other charge).
-- Can view/book/approve Appointment (approve those appointments which is requested by patient).
+- Central hub for hospital management.  
+- Overview cards: total doctors, patients, and appointments.  
+- Quick access to add, update, or delete doctors and patients.  
+- Approve or reject pending doctors/patients.  
+- Discharge patients and generate bills.  
 
-### Doctor
-- Apply for job in hospital. Then Login (Approval required by hospital admin, Then only doctor can login).
-- Can only view their patient details (symptoms, name, mobile ) assigned to that doctor by admin.
-- Can view their discharged(by admin) patient list.
-- Can view their Appointments, booked by admin.
-- Can delete their Appointment, when doctor attended their appointment.
+### Doctor Dashboard
+- Overview of assigned patients, appointments, and discharged patients.  
+- Manage patient details and appointments.  
+- Search patients by name or symptoms.  
+- Sidebar navigation for profile, patients, and appointments.  
 
-### Patient
-- Create account for admit in hospital. Then Login (Approval required by hospital admin, Then only patient can login).
-- Can view assigned doctor's details like ( specialization, mobile, address).
-- Can view their booked appointment status (pending/confirmed by admin).
-- Can book appointments.(approval required by admin)
-- Can view/download Invoice pdf (Only when that patient is discharged by admin).
+### Patient Dashboard
+- View personal information and assigned doctor details.  
+- Book and view appointments.  
+- Access discharge records and bills.  
+- Search doctors by department or name.  
 
 ---
 
-## HOW TO RUN THIS PROJECT
-- Install Python(3.7.6) (Dont Forget to Tick Add to Path while installing Python)
-- Open Terminal and Execute Following Commands :
-```
-pip install django==3.0.5
-pip install django-widget-tweaks
-pip install xhtml2pdf
-```
-- Download This Project Zip Folder and Extract it
-- Move to project folder in Terminal. Then run following Commands :
-```
-py manage.py makemigrations
-py manage.py migrate
-py manage.py runserver
-```
-- Now enter following URL in Your Browser Installed On Your Pc
-```
-http://127.0.0.1:8000/
-```
+## Tech Stack
 
-## CHANGES REQUIRED FOR CONTACT US PAGE
-- In settins.py file, You have to give your email and password
-```
-EMAIL_HOST_USER = 'youremail@gmail.com'
-EMAIL_HOST_PASSWORD = 'your email password'
-EMAIL_RECEIVING_USER = 'youremail@gmail.com'
-```
-- Login to gmail through host email id in your browser and open following link and turn it ON
-```
-https://myaccount.google.com/lesssecureapps
-```
-## Drawbacks/LoopHoles
-- Any one can be Admin. There is no Approval required for admin account. So you can disable admin signup process and use any logic like creating superuser.
-- There should be at least one doctor in hospital before admitting patient. So first add doctor.
-- On update page of doctor/patient you must have to update password.
+- **Backend:** Django (Python)  
+- **Frontend:** HTML, CSS, Bootstrap 4/5, JavaScript  
+- **Database:** SQLite (default) / PostgreSQL (optional)  
+- **PDF Generation:** xhtml2pdf  
+- **Email:** Django Email backend  
 
-## Disclaimer
-This project is developed for demo purpose and it's not supposed to be used in real application.
+---
 
-## Feedback
-Any suggestion and feedback is welcome. You can message me on facebook
-- [Contact on Facebook](https://fb.com/sumit.luv)
-- [Subscribe my Channel LazyCoder On Youtube](https://youtube.com/lazycoders)
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/hospital-management-system.git
